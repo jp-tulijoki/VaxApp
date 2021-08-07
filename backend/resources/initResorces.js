@@ -41,7 +41,7 @@ const initResorces = () => {
           arrived: vaccine.arrived,
           vaccine: vaccine.vaccine,
         });
-      } catch {
+      } catch (error) {
         console.log(error);
       }
     });

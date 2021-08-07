@@ -1,5 +1,8 @@
-const DataTypes = require("sequelize");
+const SequelizeDataTypes = require("sequelize");
 const sequelize = require(".");
+const withDateNoTz = require("sequelize-date-no-tz-postgres");
+
+const DataTypes = withDateNoTz(SequelizeDataTypes);
 
 const Vaccine = sequelize.define("Vaccine", {
   orderId: {
@@ -21,7 +24,7 @@ const Vaccine = sequelize.define("Vaccine", {
     type: DataTypes.INTEGER,
   },
   arrived: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATE_NO_TZ,
   },
 });
 
