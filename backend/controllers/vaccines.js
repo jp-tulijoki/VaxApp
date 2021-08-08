@@ -4,8 +4,9 @@ const Vaccine = require("../models/vaccine");
 const Vaccination = require("../models/vaccination");
 
 vaccineRouter.post("/", async (req, res) => {
-  const beginning = `${req.body.time}T00:00:00`;
-  const end = `${req.body.time}T23:59:59`;
+  const time = req.body.time;
+  const beginning = `${time.substring(0, 11)}00:00:00`;
+  const end = `${time.substring(0, 11)}23:59:59`;
 
   const dailyCount = await Vaccine.findAll({
     attributes: [
