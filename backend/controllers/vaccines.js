@@ -24,7 +24,70 @@ vaccineRouter.post("/", async (req, res) => {
     raw: true,
     nest: true,
   });
-  return res.status(200).json({ dailyCount });
+
+  const timeMinus30days = new Date(new Date(time) - 2581200000);
+
+  const expiredBottles = await Vaccine.findAll({
+    attributes: ["orderId"],
+    where: {
+      arrived: { [Op.lte]: timeMinus30days },
+    },
+    raw: true,
+  });
+
+  const expiredBottlesCount = expiredBottles.length;
+
+  const expiredBottlesInPlain = expiredBottles.map((o) => o.orderId);
+
+  const vaccinesInExpiredBottles = await Vaccine.sum("injections", {
+    where: { arrived: { [Op.lte]: timeMinus30days } },
+    raw: true,
+  });
+
+  const vaccinationsBeforeExpiration = await Vaccination.count({
+    where: {
+      sourceBottle: {
+        [Op.in]: expiredBottlesInPlain,
+      },
+    },
+  });
+
+  const validBottles = await Vaccine.findAll({
+    attributes: ["orderId"],
+    where: {
+      arrived: { [Op.gt]: timeMinus30days },
+    },
+    raw: true,
+  });
+
+  const validBottlesInPlain = validBottles.map((o) => o.orderId);
+
+  const vaccinesInValidBottles = await Vaccine.sum("injections", {
+    where: { arrived: { [Op.gt]: timeMinus30days } },
+    raw: true,
+  });
+
+  const vaccinationsDoneWithValidBottles = await Vaccination.count({
+    where: {
+      sourceBottle: {
+        [Op.in]: validBottlesInPlain,
+      },
+      vaccinationDate: {
+        [Op.lte]: time,
+      },
+    },
+  });
+
+  const vaccinesLeftToUse =
+    Number(vaccinesInValidBottles) - Number(vaccinationsDoneWithValidBottles);
+
+  return res.status(200).json({
+    dailyCount,
+    expiredBottlesCount,
+    vaccinesInExpiredBottles,
+    vaccinationsBeforeExpiration,
+    vaccinesLeftToUse,
+  });
 });
 
 module.exports = vaccineRouter;
