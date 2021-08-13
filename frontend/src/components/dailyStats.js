@@ -28,7 +28,8 @@ const DailyStats = ({ stats }) => {
       <VaccineUseStats stats={stats} />
       <p>
         At the moment, there are <b>{stats.vaccinesLeftToUse}</b> vaccines
-        available to be used.
+        available to be used. <b>{stats.expiringVaccines}</b> of them will
+        expire in 10 days.
       </p>
     </div>
   );
