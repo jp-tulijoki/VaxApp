@@ -25,7 +25,7 @@ vaccineRouter.post("/", async (req, res) => {
     nest: true,
   });
 
-  const timeMinus30days = new Date(new Date(time) - 2581200000);
+  const timeMinus30days = new Date(new Date(time) - 2584800000);
 
   const expiredBottles = await Vaccine.findAll({
     attributes: ["orderId"],
@@ -82,7 +82,7 @@ vaccineRouter.post("/", async (req, res) => {
     ? 0
     : Number(vaccinesInValidBottles) - Number(vaccinationsDoneWithValidBottles);
 
-  const timeMinus20days = new Date(new Date(time) - 1717200000);
+  const timeMinus20days = new Date(new Date(time) - 1720800000);
 
   const expiringBottles = await Vaccine.findAll({
     attributes: ["orderId"],
