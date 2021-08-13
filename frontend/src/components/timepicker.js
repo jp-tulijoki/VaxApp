@@ -9,8 +9,6 @@ import {
 } from "@material-ui/pickers";
 
 const MaterialUIPickers = ({ getStats }) => {
-  const date = "2021-04-13T12:00:00";
-
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateChange = (selectedDate) => {

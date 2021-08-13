@@ -83,4 +83,12 @@ describe("api test", () => {
 
     expect(response.body.vaccinesLeftToUse).toBe(17);
   });
+
+  test("vaccines left does not count future orders", async () => {
+    const response = await api
+      .post("/api/vaccines")
+      .send({ time: "2021-01-16T10:13:37" });
+
+    expect(response.body.vaccinesLeftToUse).toBe(26);
+  });
 });

@@ -2,6 +2,10 @@ import React from "react";
 import { PieChart, Pie, Legend } from "recharts";
 
 const VaccineUseStats = ({ stats }) => {
+  if (stats.vaccinesInExpiredBottles === null) {
+    return <></>;
+  }
+
   const vaccinationsBeforeExpiration = stats.vaccinationsBeforeExpiration;
   const spoiledVaccines =
     stats.vaccinesInExpiredBottles - stats.vaccinationsBeforeExpiration;
