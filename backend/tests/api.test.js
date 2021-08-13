@@ -91,4 +91,20 @@ describe("api test", () => {
 
     expect(response.body.vaccinesLeftToUse).toBe(26);
   });
+
+  test("expiring vaccines returns zero if there are none", async () => {
+    const response = await api
+      .post("/api/vaccines")
+      .send({ time: "2021-01-18T19:53:30" });
+
+    expect(response.body.expiringVaccines).toBe(0);
+  });
+
+  test("expiring vaccines returns correct value", async () => {
+    const response = await api
+      .post("/api/vaccines")
+      .send({ time: "2021-01-28T19:53:30" });
+
+    expect(response.body.expiringVaccines).toBe(10);
+  });
 });

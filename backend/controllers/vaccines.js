@@ -66,7 +66,6 @@ vaccineRouter.post("/", async (req, res) => {
     where: { arrived: { [Op.gt]: timeMinus30days, [Op.lte]: time } },
     raw: true,
   });
-  console.log(vaccinesInValidBottles);
 
   const vaccinationsDoneWithValidBottles = await Vaccination.count({
     where: {
@@ -83,12 +82,46 @@ vaccineRouter.post("/", async (req, res) => {
     ? 0
     : Number(vaccinesInValidBottles) - Number(vaccinationsDoneWithValidBottles);
 
+  const timeMinus20days = new Date(new Date(time) - 1717200000);
+
+  const expiringBottles = await Vaccine.findAll({
+    attributes: ["orderId"],
+    where: {
+      arrived: { [Op.gt]: timeMinus30days, [Op.lte]: timeMinus20days },
+    },
+    raw: true,
+  });
+
+  const expiringBottlesInPlain = expiringBottles.map((o) => o.orderId);
+
+  const vaccinesInExpiringBottles = await Vaccine.sum("injections", {
+    where: { arrived: { [Op.gt]: timeMinus30days, [Op.lte]: timeMinus20days } },
+    raw: true,
+  });
+
+  const vaccinationsDoneWithExpiringBottles = await Vaccination.count({
+    where: {
+      sourceBottle: {
+        [Op.in]: expiringBottlesInPlain,
+      },
+      vaccinationDate: {
+        [Op.lte]: time,
+      },
+    },
+  });
+
+  const expiringVaccines = isNaN(vaccinesInExpiringBottles)
+    ? 0
+    : Number(vaccinesInExpiringBottles) -
+      Number(vaccinationsDoneWithExpiringBottles);
+
   return res.status(200).json({
     dailyCount,
     expiredBottlesCount,
     vaccinesInExpiredBottles,
     vaccinationsBeforeExpiration,
     vaccinesLeftToUse,
+    expiringVaccines,
   });
 });
 
