@@ -4,13 +4,13 @@ import DailyStats from "./components/dailyStats";
 import axios from "axios";
 
 const App = () => {
-  const [stats, setStats] = useState({ dailyCount: [] });
+  const [stats, setStats] = useState(null);
 
   const getStats = async (time) => {
     const response = await axios.post("http://localhost:5000/api/vaccines", {
       time,
     });
-    setStats(response.data.dailyCount);
+    setStats(response.data);
   };
 
   return (

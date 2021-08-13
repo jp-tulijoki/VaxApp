@@ -12,17 +12,17 @@ import {
 const DailyOrderChart = ({ stats }) => {
   let data = [];
 
-  for (let i = 0; i < stats.length; i++) {
+  for (let i = 0; i < stats.dailyCount.length; i++) {
     data.push({
-      name: stats[i].vaccine,
-      orders: stats[i].orderCount,
-      injections: stats[i].injectionCount,
+      name: stats.dailyCount[i].vaccine,
+      orders: stats.dailyCount[i].orderCount,
+      injections: stats.dailyCount[i].injectionCount,
     });
   }
 
   return (
     <div>
-      <h2>Order stats by producer</h2>
+      <h2>Daily order stats by producer</h2>
       <BarChart
         width={500}
         height={300}

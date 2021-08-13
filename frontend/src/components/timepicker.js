@@ -9,11 +9,9 @@ import {
 } from "@material-ui/pickers";
 
 const MaterialUIPickers = ({ getStats }) => {
-  // The first commit of Material-UI
+  const date = "2021-04-13T12:00:00";
 
-  const date = new Date().toLocaleString();
-
-  const [selectedDate, setSelectedDate] = useState(date);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateChange = (selectedDate) => {
     setSelectedDate(selectedDate);

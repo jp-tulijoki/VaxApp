@@ -1,21 +1,35 @@
 import DailyOrderChart from "./dailyOrderChart";
+import VaccineUseStats from "./vaccineUseStats";
 
 const DailyStats = ({ stats }) => {
+  if (stats === null) {
+    return <></>;
+  }
+
   let orderCount = 0;
   let injectionCount = 0;
 
-  for (let i = 0; i < stats.length; i++) {
-    orderCount += Number(stats[i].orderCount);
-    injectionCount += Number(stats[i].injectionCount);
+  for (let i = 0; i < stats.dailyCount.length; i++) {
+    orderCount += Number(stats.dailyCount[i].orderCount);
+    injectionCount += Number(stats.dailyCount[i].injectionCount);
   }
 
   return (
     <div>
       <p>
-        On the selected day arrived {orderCount} orders and {injectionCount}{" "}
-        injections.
+        On the selected day arrived <b>{orderCount}</b> orders and{" "}
+        <b>{injectionCount}</b> injections.
       </p>
-      {stats.length > 0 ? <DailyOrderChart stats={stats} /> : <div></div>}
+      {stats.dailyCount.length > 0 ? <DailyOrderChart stats={stats} /> : <></>}
+      <p>
+        By the given time, <b>{stats.expiredBottlesCount}</b> vaccine bottles
+        have been expired.
+      </p>
+      <VaccineUseStats stats={stats} />
+      <p>
+        At the moment, there are <b>{stats.vaccinesLeftToUse}</b> vaccines
+        available to be used.
+      </p>
     </div>
   );
 };
