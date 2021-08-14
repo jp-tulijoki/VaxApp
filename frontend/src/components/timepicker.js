@@ -21,7 +21,7 @@ const MaterialUIPickers = ({ getStats }) => {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justifyContent="space-around">
+      <Grid container justifyContent="flex-start">
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
