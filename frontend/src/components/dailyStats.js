@@ -6,6 +6,10 @@ const DailyStats = ({ stats }) => {
     return <></>;
   }
 
+  if (stats === "unavailable") {
+    return <div>Unable to fetch stats from the database at the moment.</div>;
+  }
+
   let orderCount = 0;
   let injectionCount = 0;
 

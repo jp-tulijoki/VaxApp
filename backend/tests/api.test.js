@@ -7,6 +7,14 @@ beforeAll(async () => {
   await initTestResources();
 });
 describe("api test", () => {
+  test("invalid request body results in error", async () => {
+    const response = await api
+      .post("/api/vaccines")
+      .send({ time: "20210202T14:56:01" });
+
+    expect(response.statusCode).toBe(500);
+  });
+
   test("correct daily count is returned", async () => {
     const response = await api
       .post("/api/vaccines")

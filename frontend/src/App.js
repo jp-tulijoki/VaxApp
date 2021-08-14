@@ -7,10 +7,14 @@ const App = () => {
   const [stats, setStats] = useState(null);
 
   const getStats = async (time) => {
-    const response = await axios.post("http://localhost:5000/api/vaccines", {
-      time,
-    });
-    setStats(response.data);
+    try {
+      const response = await axios.post("http://localhost:5000/api/vaccines", {
+        time,
+      });
+      setStats(response.data);
+    } catch (error) {
+      setStats("unavailable");
+    }
   };
 
   return (
