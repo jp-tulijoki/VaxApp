@@ -1,6 +1,6 @@
 # Vax App
 
-A web dev exercise to show vaccine and vaccination statistics. [The app is available in Heroku.](https://ancient-reaches-96662.herokuapp.com/)
+A web dev exercise to show vaccine and vaccination statistics. [A sample of the app is available in Heroku](https://ancient-reaches-96662.herokuapp.com/) (all data does not fit in the database, so it might not show exactly the same numbers as the locally installed app).
 
 ## Setting up a local environment
 
